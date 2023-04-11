@@ -1,51 +1,14 @@
 <template>
   <div class="home">
-    <div class="title">{{ title }}</div>
-    <div class="subtitle">{{ subtitle }}</div>
-    <div class="subtitle">如果没有播放，请检查是否已允许浏览器使用 Flash 播放</div>
-    <div class="actions">
-      <Button type="success" size="large">
-        <a href="https://github.com/fuyi501/web-video-live">VIEW ON GITHUB</a>
-      </Button>
-      <Button type="error" size="large" style="margin-left:2em;">
-        <a href="https://github.com/fuyi501/web-video-live/issues">ISSUES</a>
-      </Button>
-    </div>
-    <div class="example-title"> # vue-video-player 播放 RTMP 流 </div>
-    <Row type="flex" justify="center" :gutter="20">
-      <Col :span="18">
-        <Row type="flex" justify="start" :gutter="20" >
-          <i-col :span="12" v-for="(item, i) in videoInfo" :key="`info-${i}`" style="margin-bottom:30px;">
-            <Card>
-              <p slot="title" style="">{{ item.title }}</p>
-              <div >
-                <RtmpLive :src="item.videoSrc"></RtmpLive>
-              </div>
-            </Card>
-          </i-col>
-        </Row>
-      </Col>
-    </Row>
-    <div class="example-title"> # vue-video-player 播放 HLS 流 </div>
-    <Row type="flex" justify="center">
-      <Col :span="18">
-        <HlsLive></HlsLive>
-      </Col>
-    </Row>
-    <div class="example-title"> # flv.js 播放 flv 视频流 </div>
-    <Row type="flex" justify="center">
-      <Col :span="18">
-        <Flv></Flv>
-      </Col>
-    </Row>
-    <div class="example-title"> # flv.js 播放 http-flv 视频流并截图</div>
+    <div class="example-title"> # 播放flv视频流 </div>
     <Button type="primary" size="large" style="margin:0 0 2em;" @click="captureImg">截图</Button>
-    <Row type="flex" justify="center" :gutter="40" style="margin-bottom:6em;">
-      <Col :span="9">
-        <!-- 网上没有可以用的 http-flv 视频流，所以这里用 flv 代替 -->
-        <HttpFlv src="http://yunxianchang.live.ujne7.com/vod-system-bj/TLaf2cc9d469939803949187b46da16c45.flv"></HttpFlv>
+    <Row type="flex" justify="left">
+      <Col :span="18">
+        <Flv src="http://192.168.20.132:8080/live/test.live.flv?secret=035c73f7-bb6b-4889-a715-d9eb2d1925cc"></Flv>
       </Col>
-      <Col :span="9">
+    </Row>
+    <Row type="flex" justify="right">
+      <Col :span="16">
         <div style="width:0px;height:0px;overflow:hidden;">
           <canvas id="canvas" width="515" height="300"></canvas>
         </div>
@@ -73,9 +36,10 @@ export default {
   },
   data () {
     return {
-      title: 'web 播放视频流/直播',
-      subtitle: '使用 vue-video-player、flv.js 播放 RTMP、HLS、HTTP-FLV 视频流',
+      title: '',
+      subtitle: '',
       videoInfo: [
+        { title: '海康摄像头', videoSrc: 'rtmp://192.168.20.132/live/test?secret=035c73f7-bb6b-4889-a715-d9eb2d1925cc'},
         { title: '香港卫视', videoSrc: 'rtmp://live.hkstv.hk.lxdns.com/live/hks1'},
         { title: '香港财经', videoSrc: 'rtmp://202.69.69.180:443/webcast/bshdlive-pc'},
         { title: '湖南卫视', videoSrc: 'rtmp://58.200.131.2:1935/livetv/hunantv'},
@@ -88,7 +52,7 @@ export default {
     }
   },
   mounted () {
-    this.videoTag = document.getElementById('videoElement2')
+    this.videoTag = document.getElementById('videoElement')
     this.canvas = document.getElementById('canvas')
     this.context = this.canvas.getContext('2d')
     console.log('加载数据：', this.videoTag, this.canvas, this.context)
